@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Wall Now!</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Math Wall Now!</h1>
+            <div class="api-selector">
+                <label for="api-platform">Select LLM Platform:</label>
+                <select id="api-platform" name="api-platform">
+                    <option value="anthropic">Claude 3.7 Sonnet</option>
+                </select>
+                <label for="api-key">API Key:</label>
+                <input type="password" id="api-key" name="api-key" placeholder="Enter your API key" required>
+            </div>
+        </header>
+
+        <section class="input-section">
+            <h2>Describe Your Idea:</h2>
+            <textarea id="idea-input" class="input-box" placeholder="Describe your mathematical idea or concept here..."></textarea>
+            <button id="generate-button" class="generate-button">
+                <div class="button-content">
+                    <span>Generate Math Wall!</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                        <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+                </div>
+            </button>
+        </section>
+
+        <section id="progress-section" class="progress-section">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20V10"></path>
+                    <path d="M18 20V4"></path>
+                    <path d="M6 20v-6"></path>
+                </svg>
+                Generation Progress
+            </h2>
+            
+            <div class="progress-container">
+                <div class="progress-steps">
+                    <div class="progress-step" data-step="1">
+                        <div class="progress-step-circle">1</div>
+                        <div class="progress-step-label">Formalize</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="progress-step-circle">2</div>
+                        <div class="progress-step-label">Refine</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="progress-step-circle">3</div>
+                        <div class="progress-step-label">Theorize</div>
+                    </div>
+                    <div class="progress-step" data-step="4">
+                        <div class="progress-step-circle">4</div>
+                        <div class="progress-step-label">Reviewers</div>
+                    </div>
+                    <div class="progress-step" data-step="5">
+                        <div class="progress-step-circle">5</div>
+                        <div class="progress-step-label">Rewrite</div>
+                    </div>
+                    <div class="progress-step" data-step="6">
+                        <div class="progress-step-circle">6</div>
+                        <div class="progress-step-label">LaTeXify</div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="current-step" class="current-step">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.69 2.81"></path>
+                    <path d="M21 8v4h-4"></path>
+                </svg>
+                Initializing...
+            </div>
+            
+            <div id="step-logs" class="step-logs"></div>
+        </section>
+
+        <section id="results-section" class="results-section">
+            <h2>Generated Results</h2>
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="paper-1">Paper 1</button>
+                <button class="tab-button" data-tab="paper-2">Paper 2</button>
+                <button class="tab-button" data-tab="paper-3">Paper 3</button>
+                <button class="tab-button" data-tab="raw-output">Raw Output</button>
+            </div>
+
+            <div id="paper-1" class="tab-content active">
+                <!-- Paper 1 content will be populated here -->
+            </div>
+
+            <div id="paper-2" class="tab-content">
+                <!-- Paper 2 content will be populated here -->
+            </div>
+
+            <div id="paper-3" class="tab-content">
+                <!-- Paper 3 content will be populated here -->
+            </div>
+
+            <div id="raw-output" class="tab-content">
+                <div class="step-result">
+                    <div class="step-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 8v4l3 3"></path>
+                        </svg>
+                        Step 1: Formalization
+                    </div>
+                    <pre id="formalization-raw" class="latex-section"></pre>
+                </div>
+                <div class="step-result">
+                    <div class="step-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 8v4l3 3"></path>
+                        </svg>
+                        Step 2: Combining & Reranking
+                    </div>
+                    <pre id="combining-raw" class="latex-section"></pre>
+                </div>
+                <div class="step-result">
+                    <div class="step-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 8v4l3 3"></path>
+                        </svg>
+                        Step 3: High-Level Theory
+                    </div>
+                    <pre id="theory-raw" class="latex-section"></pre>
+                </div>
+                <div class="step-result">
+                    <div class="step-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 8v4l3 3"></path>
+                        </svg>
+                        Step 4: Reviewer Comments
+                    </div>
+                    <pre id="reviews-raw" class="latex-section"></pre>
+                </div>
+                <div class="step-result">
+                    <div class="step-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 8v4l3 3"></path>
+                        </svg>
+                        Step 5: Rewritten Abstracts
+                    </div>
+                    <pre id="rewritten-raw" class="latex-section"></pre>
+                </div>
+                <div class="step-result">
+                    <div class="step-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 8v4l3 3"></path>
+                        </svg>
+                        Step 6: Final LaTeX
+                    </div>
+                    <pre id="latex-raw" class="latex-section"></pre>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- API Client Module -->
+    <script src="js/ApiClient.js"></script>
+    
+    <!-- Prompt Manager Base Class -->
+    <script src="js/PromptManager.js"></script>
+    
+    <!-- Individual Prompt Stage Modules -->
+    <script src="js/FormalizationPrompt.js"></script>
+    <script src="js/CombinePrompt.js"></script>
+    <script src="js/TheoryPrompt.js"></script>
+    <script src="js/ReviewerPrompt.js"></script>
+    <script src="js/RewritePrompt.js"></script>
+    <script src="js/LatexPrompt.js"></script>
+    
+    <!-- Animation Module -->
+    <script src="js/Animations.js"></script>
+    
+    <!-- Error Dialog Module -->
+    <script src="js/ErrorDialog.js"></script>
+    
+    <!-- Main App Module -->
+    <script src="js/MathWallApp.js"></script>
+</body>
+</html>
